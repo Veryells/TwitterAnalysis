@@ -17,7 +17,7 @@ object TwitterProject {
 
   def main(args: Array[String]) {
 
-        /////// TASK 1
+        /////// Clean data
 
     val inputFile: String = args(0)
 
@@ -43,7 +43,7 @@ object TwitterProject {
       import spark.implicits._
       input.createOrReplaceTempView("root")
 
-      // PART 1 - CLEAN DATA
+      // CLEAN DATA
       val selectQuery: String = "SELECT id, text, entities.hashtags.text AS hashtags, user.description AS user_description, retweet_count, reply_count, quoted_status_id FROM root;"
       val df: DataFrame = spark.sql(selectQuery)
       df.printSchema()
@@ -58,7 +58,7 @@ object TwitterProject {
           /////// TASK 2
     // Initialize Spark context
 
-    val conf2 = new SparkConf().setAppName("Twitter Task 2")
+    val conf2 = new SparkConf().setAppName("Spark context")
     // Set Spark master to local if not already set
     if (!conf2.contains("spark.master"))
       conf2.setMaster("local[*]")
@@ -112,8 +112,8 @@ object TwitterProject {
     // Output file
     finalDF.write.json(outputFile)
 
-      //////////// TASK 3
-    val conf3 = new SparkConf().setAppName("Twitter Task 3")
+      ///// Run through sentiment analysis
+    val conf3 = new SparkConf().setAppName("Twitter analysis")
     val inputfile = args(2)
     if (!conf3.contains("spark.master"))
       conf3.setMaster("local[*]")
